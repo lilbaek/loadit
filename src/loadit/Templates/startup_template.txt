@@ -1,0 +1,10 @@
+using Loadit;
+using Microsoft.Extensions.DependencyInjection;
+//Do not rename the file Startup.cs. Otherwise it will not get included at compile time.
+public class Startup : IStartup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        //Add your own services if required
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "InfluxDB": {
+        "Url": "",
+        "Username": "",
+        "Password": "",        
+        "Database": "",
+        "Interval": 1000
+    }
+}

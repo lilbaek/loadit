@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>Loadit.Interprocess</PackageId>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageOutputPath>../../nupkg</PackageOutputPath>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>Load testing</PackageTags>
+        <PackageProjectUrl>https://github.com/lilbaek/loadit</PackageProjectUrl>
+        <PackOnBuild>true</PackOnBuild>
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <DefaultItemExcludes>$(DefaultItemExcludes);*.binlog;*.zip</DefaultItemExcludes>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Loadit.Interprocess</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MessagePack" Version="2.2.85" />
+        <PackageReference Include="MessagePackAnalyzer" Version="2.2.85" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />        
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Remove="loadit.lib.csproj.DotSettings" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\img\icon.png" Pack="true" PackagePath="%(Filename)%(Extension)">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+</Project>

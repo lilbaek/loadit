@@ -1,0 +1,10 @@
+<Project>
+    <PropertyGroup>
+        <Authors>Lilbæk</Authors>
+        <Copyright>Copyright 2020 - Morten Lilbæk Pedersen</Copyright>
+        <Description>Load testing tool providing the best .NET developer experience for API performance testing.</Description>
+        <VersionPrefix>1.0.5</VersionPrefix>
+        <LangVersion>Preview</LangVersion>
+        <Nullable>enable</Nullable>        
+    </PropertyGroup>
+</Project>

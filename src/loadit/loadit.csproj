@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackAsTool>true</PackAsTool>
+        <PackageId>Loadit</PackageId>
+        <ToolCommandName>loadit</ToolCommandName>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageOutputPath>../../nupkg</PackageOutputPath>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>Load testing</PackageTags>
+        <PackageProjectUrl>https://github.com/lilbaek/loadit</PackageProjectUrl>
+    </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Loadit.Tool</RootNamespace>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>true</WarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MessagePack" Version="2.2.85" />
+        <PackageReference Include="MessagePackAnalyzer" Version="2.2.85" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
+        <PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.20574.7" />
+        <PackageReference Include="Spectre.Console" Version="0.35.0" />        
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\img\icon.png" Pack="true" PackagePath="%(Filename)%(Extension)">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\loadit.interprocess\loadit.interprocess.csproj" />
+        <ProjectReference Include="..\loadit.lib\loadit.lib.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Templates\csproj_template.txt" />
+        <EmbeddedResource Include="Templates\app_settings_template.txt" />
+        <EmbeddedResource Include="Templates\csproj_template.txt" />
+        <None Remove="Templates\lib_csproj_template.txt" />
+        <EmbeddedResource Include="Templates\csproj_user_template.txt" />
+        <EmbeddedResource Include="Templates\lib_csproj_template.txt" />
+        <None Remove="Templates\sln_template.txt" />
+        <EmbeddedResource Include="Templates\sln_template.txt" />
+        <None Remove="Templates\startup_template.txt" />
+        <EmbeddedResource Include="Templates\startup_template.txt" />
+        <None Remove="Templates\test_template.txt" />
+        <EmbeddedResource Include="Templates\test2_template.txt" />
+        <EmbeddedResource Include="Templates\test_template.txt" />
+    </ItemGroup>
+</Project>

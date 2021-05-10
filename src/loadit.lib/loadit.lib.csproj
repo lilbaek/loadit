@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>Loadit.Apis</PackageId>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageOutputPath>../../nupkg</PackageOutputPath>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>Load testing</PackageTags>
+        <PackageProjectUrl>https://github.com/lilbaek/loadit</PackageProjectUrl>
+        <PackOnBuild>true</PackOnBuild>
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <DefaultItemExcludes>$(DefaultItemExcludes);*.binlog;*.zip</DefaultItemExcludes>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Loadit</RootNamespace>
+        <Nullable>enable</Nullable>
+        <LangVersion>Preview</LangVersion>
+        <WarningsAsErrors>true</WarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MessagePack" Version="2.2.85" />
+        <PackageReference Include="MessagePackAnalyzer" Version="2.2.85" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
+        <PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.20574.7" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" Pack="false" />
+        <PackageReference Include="InfluxDB.LineProtocol" Version="1.1.1" />
+        <PackageReference Include="System.Text.Json" Version="5.0.0" />
+        <PackageReference Include="Spectre.Console" Version="0.35.0" />
+        <PackageReference Include="Humanizer.Core" Version="2.8.26" />        
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Remove="loadit.lib.csproj.DotSettings" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\img\icon.png" Pack="true" PackagePath="%(Filename)%(Extension)">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\loadit.interprocess\loadit.interprocess.csproj" />        
+    </ItemGroup>
+</Project>

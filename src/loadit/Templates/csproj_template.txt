@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="Properties" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Loadit.Analyzer" Version="{{version}}" />
+        <PackageReference Include="Loadit.Apis" Version="{{version}}" />
+        <PackageReference Include="Loadit.VisualStudio" Version="{{version}}" />
+        <PackageReference Include="Loadit.Interprocess" Version="{{version}}" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\{{projectName}}.lib\{{projectName}}.lib.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+</Project>

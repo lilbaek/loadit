@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Startup.cs": {
+      "commandName": "Project"
+    },
+    "Test1.cs": {
+      "commandName": "Project"
+    },
+    "Test2.cs": {
+      "commandName": "Project"
+    },
+    "Test3.cs": {
+      "commandName": "Project"
+    },
+    "Test4.cs": {
+      "commandName": "Project"
+    }
+  }
+}

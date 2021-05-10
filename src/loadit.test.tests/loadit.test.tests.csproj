@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>Loadit.Sample</RootNamespace>
+        <Nullable>enable</Nullable>
+        <StartupFile>$(ActiveDebugProfile)</StartupFile>
+        <DefaultItemExcludesInProjectFolder>**\*.cs</DefaultItemExcludesInProjectFolder>
+    </PropertyGroup>
+    <ItemGroup>
+        <Folder Include="Properties" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\loadit.lib\loadit.lib.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="**\*.cs" Exclude="$(ActiveDebugProfile);Startup.cs;obj\**;debug\**" />
+        <Compile Include="$(ActiveDebugProfile)" Condition="Exists('$(ActiveDebugProfile)')" />        
+        <Compile Include="Startup.cs" Condition="Exists('Startup.cs')" />        
+        <None Update="appsettings.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+</Project>

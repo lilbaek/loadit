@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Grouped\\GroupedAgain\\SimpleTest2.cs": {
+      "commandName": "Project"
+    },
+    "Grouped\\SimpleTest1.cs": {
+      "commandName": "Project"
+    },
+    "SimpleTest.cs": {
+      "commandName": "Project"
+    }
+  }
+}

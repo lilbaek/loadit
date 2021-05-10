@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Loadit.Lib.Test</RootNamespace>
+        <WarningsAsErrors>true</WarningsAsErrors>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="3.0.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+        <PackageReference Include="Moq" Version="4.15.2" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\loadit.interprocess\loadit.interprocess.csproj" />
+        <ProjectReference Include="..\loadit.lib\loadit.lib.csproj" />
+        <ProjectReference Include="..\loadit.test.server\loadit.test.server.csproj" />
+        <ProjectReference Include="..\loadit.test.shared\loadit.test.shared.csproj" />
+        <ProjectReference Include="..\loadit\loadit.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+    
+</Project>

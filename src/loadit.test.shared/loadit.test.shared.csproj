@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <WarningsAsErrors>true</WarningsAsErrors>
+        <Nullable>disable</Nullable>
+        <RootNamespace>Loadit.Test.Shared</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="xunit" Version="2.4.1" />        
+    </ItemGroup>
+</Project>

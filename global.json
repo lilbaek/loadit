@@ -1,0 +1,10 @@
+{
+  "sdk": {
+    "version": "5.0.100",
+	"rollForward": "latestMajor"
+  },
+  "tools": {
+    "dotnet": "5.0.100",
+	"rollForward": "latestMajor"
+  }
+}

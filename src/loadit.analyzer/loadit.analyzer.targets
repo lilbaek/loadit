@@ -1,0 +1,149 @@
+<!--
+MIT License
+
+Copyright (c) 2020 Daniel Cazzulino
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<Project>
+    <PropertyGroup>
+        <DefaultItemExcludesInProjectFolder>**\*.cs</DefaultItemExcludesInProjectFolder>
+        <MSBuildShortVersion>$(MSBuildVersion.TrimEnd('0123456789').TrimEnd('.'))</MSBuildShortVersion>
+        <UserProjectNamespace>
+            <Namespace Prefix="msb" Uri="http://schemas.microsoft.com/developer/msbuild/2003"/>
+        </UserProjectNamespace>
+        <StartupFile>$(ActiveDebugProfile)</StartupFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="**\*.cs" Exclude="$(ActiveDebugProfile);Startup.cs;**\obj\*;**\debug\net5.0\*"/>
+        <Compile Include="$(ActiveDebugProfile)" Condition="Exists('$(ActiveDebugProfile)')" Exclude="Startup.cs;**\obj\*;**\debug\net5.0\*"/>
+        <Compile Include="Startup.cs" Condition="Exists('Startup.cs')"/>
+    </ItemGroup>
+    <ItemGroup>
+        <CompilerVisibleProperty Include="MSBuildProjectDirectory"/>
+        <CompilerVisibleProperty Include="ActiveDebugProfile"/>        
+        <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="SourceItemType"/>
+    </ItemGroup>
+
+    <Target Name="SelectStartupFile" BeforeTargets="BeforeCompile;CoreCompile" Condition="'$(StartupFile)' == '' or !Exists('$(StartupFile)')">
+        <PropertyGroup Condition="'$(ActiveDebugProfile)' == '' or !Exists('$(ActiveDebugProfile)')">
+            <FindStartupFile>true</FindStartupFile>
+        </PropertyGroup>
+        <ItemGroup Condition="'$(FindStartupFile)' == 'true'">
+            <CandidateCompile Include="**\*.cs" Exclude="**\obj\*;**\debug\net5.0\*"/>
+            <ReversedCompile Include="@(CandidateCompile -> Reverse())"/>
+        </ItemGroup>
+        <PropertyGroup Condition="'$(FindStartupFile)' == 'true'">
+            <StartupFile>%(ReversedCompile.Identity)</StartupFile>
+        </PropertyGroup>
+
+        <!-- If .user file doesn't exist at all, create it now -->
+        <PropertyGroup Condition="!Exists('$(MSBuildProjectFullPath).user')">
+            <UserProject>
+                <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+                    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+                        <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+                    </PropertyGroup>
+                    <PropertyGroup>
+                        <ActiveDebugProfile>$(StartupFile)</ActiveDebugProfile>
+                    </PropertyGroup>
+                </Project>
+            </UserProject>
+            <WriteStartupFile>false</WriteStartupFile>
+        </PropertyGroup>
+        <WriteLinesToFile File="$(MSBuildProjectFullPath).user"
+                          Lines="$(UserProject)"
+                          Condition="!Exists('$(MSBuildProjectFullPath).user')"/>
+
+        <XmlPoke XmlInputPath="$(MSBuildProjectFullPath).user"
+                 Value="$(StartupFile)"
+                 Query="/msb:Project/msb:PropertyGroup/msb:ActiveDebugProfile"
+                 Namespaces="$(UserProjectNamespace)"
+                 Condition="'$(WriteStartupFile)' != 'false' and '$(StartupFile)' != ''"/>
+
+        <XmlPeek XmlInputPath="$(MSBuildProjectFullPath).user"
+                 Query="/msb:Project/msb:PropertyGroup/msb:ActiveDebugProfile/text()"
+                 Namespaces="$(UserProjectNamespace)">
+            <Output TaskParameter="Result" PropertyName="StartupDebugProfile"/>
+        </XmlPeek>
+
+        <PropertyGroup Condition="'$(StartupFile)' != '' and '$(StartupDebugProfile)' != '$(StartupFile)'">
+            <ActiveDebugProfileProperty>
+                <ActiveDebugProfile>$(StartupFile)</ActiveDebugProfile>
+            </ActiveDebugProfileProperty>
+        </PropertyGroup>
+
+        <!-- The ActiveDebugProfile property element may be missing, failing to write the value -->
+        <XmlPoke XmlInputPath="$(MSBuildProjectFullPath).user"
+                 Value="$(ActiveDebugProfileProperty)"
+                 Query="/msb:Project/msb:PropertyGroup"
+                 Namespaces="$(UserProjectNamespace)"
+                 Condition="'$(StartupFile)' != '' and '$(StartupDebugProfile)' != '$(StartupFile)'"/>
+
+        <XmlPeek XmlInputPath="$(MSBuildProjectFullPath).user"
+                 Query="/msb:Project/msb:PropertyGroup/msb:ActiveDebugProfile/text()"
+                 Namespaces="$(UserProjectNamespace)">
+            <Output TaskParameter="Result" PropertyName="StartupDebugProfile"/>
+        </XmlPeek>
+
+        <!-- Read again after we poke the ActiveDebugProfile property -->
+        <PropertyGroup Condition="'$(StartupFile)' != '' and '$(StartupDebugProfile)' != '$(StartupFile)'">
+            <UserPropertyGroup>
+                <PropertyGroup>
+                    <ActiveDebugProfile>$(StartupFile)</ActiveDebugProfile>
+                </PropertyGroup>
+            </UserPropertyGroup>
+        </PropertyGroup>
+
+        <XmlPoke XmlInputPath="$(MSBuildProjectFullPath).user"
+                 Value="$(UserPropertyGroup)"
+                 Query="/msb:Project"
+                 Namespaces="$(UserProjectNamespace)"
+                 Condition="'$(StartupFile)' != '' and '$(StartupDebugProfile)' != '$(StartupFile)'"/>
+
+        <!-- Read again after we poke the PropertyGroup -->
+        <XmlPoke XmlInputPath="$(MSBuildProjectFullPath).user"
+                 Value="$(StartupFile)"
+                 Query="/msb:Project/msb:PropertyGroup/msb:ActiveDebugProfile/text()"
+                 Namespaces="$(UserProjectNamespace)"
+                 Condition="'$(StartupFile)' != '' and '$(StartupDebugProfile)' != '$(StartupFile)'"/>
+
+        <Warning Text="Could not set ActiveDebugProfile=$(StartupFile). Build the project once to fix it."
+                 Condition="'$(StartupFile)' != '' and '$(StartupDebugProfile)' != '$(StartupFile)'"/>
+
+        <ItemGroup>
+            <Compile Include="$(StartupFile)" Condition="'$(StartupFile)' != ''"/>
+        </ItemGroup>
+    </Target>
+
+    <!-- Adds the additional files that the source generator uses to emit the launch profiles. -->
+    <Target Name="AddTopLevelCompile" BeforeTargets="GenerateMSBuildEditorConfigFileShouldRun">
+        <ItemGroup>
+            <AdditionalFiles Include="**\*.cs" Exclude="**\obj\*;**\debug\net5.0\*" SourceItemType="Compile"/>
+        </ItemGroup>
+    </Target>
+
+    <!-- Make sure changing the launch profiles refreshes the design-time build -->
+    <Target Name="AddUpToDateCheckInputDesignTime" BeforeTargets="CollectUpToDateCheckInputDesignTime">
+        <ItemGroup>
+            <UpToDateCheckInput Include="$(MSBuildProjectDirectory)\Properties\launchSettings.json"/>
+            <UpToDateCheckInput Include="$(MSBuildProjectFullPath).user"/>
+        </ItemGroup>
+    </Target>
+</Project>

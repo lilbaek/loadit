@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>Loadit.Analyzer</PackageId>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageOutputPath>../../nupkg</PackageOutputPath>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>Load testing</PackageTags>
+        <PackageProjectUrl>https://github.com/lilbaek/loadit</PackageProjectUrl>
+        <PackOnBuild>true</PackOnBuild>
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <DefaultItemExcludes>$(DefaultItemExcludes);*.binlog;*.zip</DefaultItemExcludes>
+        <PackFolder>analyzers\cs</PackFolder>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>Loadit.Analyzer</RootNamespace>
+        <AssemblyName>Loadit.Analyzer</AssemblyName>
+        <Nullable>enable</Nullable>
+        <LangVersion>Preview</LangVersion>
+        <WarningsAsErrors>true</WarningsAsErrors>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" Pack="false" />
+        <PackageReference Include="System.Text.Json" Version="5.0.0" PrivateAssets="all" />
+        <PackageReference Include="NuGetizer" Version="0.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="@(None)" PackFolder="build\netstandard2.0" />
+    </ItemGroup>
+    <ItemGroup Label="Workaround for ISourceGenerator API changes">
+        <!-- Workaround for revision mismatch with public versions -->
+        <PackageReference Include="System.Collections.Immutable" Version="5.0.0.*" Pack="false" />
+        <PackageReference Include="System.Reflection.Metadata" Version="5.0.0.*" Pack="false" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\img\icon.png" Pack="true" PackagePath="%(Filename)%(Extension)">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+</Project>
