@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk" InitialTargets="Clean">
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <Nullable>enable</Nullable>
+        <StartupFile>$(ActiveDebugProfile)</StartupFile>
+        <DefaultItemExcludesInProjectFolder>**\*.cs</DefaultItemExcludesInProjectFolder>
     </PropertyGroup>
-
     <ItemGroup>
         <Folder Include="Properties" />
     </ItemGroup>
@@ -18,8 +19,11 @@
       <ProjectReference Include="..\{{projectName}}.lib\{{projectName}}.lib.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <None Update="appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Include="**\*.cs" Exclude="$(ActiveDebugProfile);Startup.cs;**\obj\*;**\debug\net5.0\*"/>
+        <Compile Include="$(ActiveDebugProfile)" Condition="Exists('$(ActiveDebugProfile)')" Exclude="Startup.cs;**\obj\*;**\debug\net5.0\*"/>
+        <Compile Include="Startup.cs" Condition="Exists('Startup.cs')" />        
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 </Project>

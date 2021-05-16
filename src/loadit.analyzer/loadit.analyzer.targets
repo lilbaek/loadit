@@ -31,11 +31,6 @@ SOFTWARE.
         <StartupFile>$(ActiveDebugProfile)</StartupFile>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="**\*.cs" Exclude="$(ActiveDebugProfile);Startup.cs;**\obj\*;**\debug\net5.0\*"/>
-        <Compile Include="$(ActiveDebugProfile)" Condition="Exists('$(ActiveDebugProfile)')" Exclude="Startup.cs;**\obj\*;**\debug\net5.0\*"/>
-        <Compile Include="Startup.cs" Condition="Exists('Startup.cs')"/>
-    </ItemGroup>
-    <ItemGroup>
         <CompilerVisibleProperty Include="MSBuildProjectDirectory"/>
         <CompilerVisibleProperty Include="ActiveDebugProfile"/>        
         <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="SourceItemType"/>

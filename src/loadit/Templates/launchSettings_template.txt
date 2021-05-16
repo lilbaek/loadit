@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "Test1.cs": {
+      "commandName": "Project"
+    },
+    "Test2.cs": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -59,5 +59,7 @@
         <None Remove="Templates\test_template.txt" />
         <EmbeddedResource Include="Templates\test2_template.txt" />
         <EmbeddedResource Include="Templates\test_template.txt" />
+        <None Remove="Templates\launchSettings_template.txt" />
+        <EmbeddedResource Include="Templates\launchSettings_template.txt" />
     </ItemGroup>
 </Project>

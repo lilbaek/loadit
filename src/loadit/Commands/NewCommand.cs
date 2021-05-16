@@ -36,6 +36,8 @@ namespace Loadit.Tool.Commands
 
             var projectDir = Path.Combine(rootDir, name);
             Directory.CreateDirectory(projectDir);
+            var propertiesDirectory = Path.Combine(projectDir, "Properties");
+            Directory.CreateDirectory(propertiesDirectory);
             var libProjectDir = Path.Combine(rootDir, name + ".lib");
             Directory.CreateDirectory(libProjectDir);
 
@@ -47,6 +49,7 @@ namespace Loadit.Tool.Commands
             await File.WriteAllTextAsync(Path.Combine(projectDir, "Test2.cs"), await GetReplacedTemplate(name, "test2_template"));
             await File.WriteAllTextAsync(Path.Combine(projectDir, "Startup.cs"), await GetReplacedTemplate(name, "startup_template"));
             await File.WriteAllTextAsync(Path.Combine(projectDir, "appsettings.json"), await GetReplacedTemplate(name, "app_settings_template"));
+            await File.WriteAllTextAsync(Path.Combine(propertiesDirectory, "launchSettings.json"), await GetReplacedTemplate(name, "launchSettings_template"));
             
             Console.WriteLine($"Created a new project with name: {name}");
             return ExitCode.Ok;
