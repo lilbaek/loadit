@@ -1,0 +1,18 @@
+<idea-plugin>
+    <id>com.github.lilbaek.loaditrider</id>
+    <name>loadit.rider</name>
+    <vendor>lilbaek</vendor>
+
+    <!-- Product and plugin compatibility requirements -->
+    <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        
+    </extensions>
+
+    <applicationListeners>
+        <listener class="com.github.lilbaek.loaditrider.listeners.LoaditProjectManagerListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
+</idea-plugin>
